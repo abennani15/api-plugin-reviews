@@ -1,0 +1,19 @@
+[{
+  "language": "English",
+  "i18n": "en",
+  "ns": "product-reviews",
+  "translation": {
+    "reaction-blog": {
+      "admin": {
+        "shortcut": {
+          "reviewsLabel": "Reviews",
+          "reviewDescription": "Provide reviews management."
+        },
+        "dashboard": {
+          "reviewsLabel": "Reviews",
+          "reviewDescription": "Provide reviews management."
+        }
+      }
+    }
+  }
+}]
