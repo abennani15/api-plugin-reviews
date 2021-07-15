@@ -1,0 +1,70 @@
+"Product review"
+type Review {
+  "Review ID"
+  _id: ID
+
+  "Review score from 1 to 5"
+  score: Int
+
+  "Create date"
+  createdAt: Date
+
+  "Account Id of user that created the review"
+  accountId: String
+
+  "Name of user that created the review"
+  name: String
+
+  "Comment for the review"
+  comment: String
+
+  "Review status"
+  visible: Boolean
+}
+
+extend type CatalogProduct {
+  reviews: [Review]
+}
+
+input ReviewInput {
+  "Catalog Item ID to add review to"
+  catalogItemId: String!
+
+  "Review score from 1 to 5"
+  score: Int!
+
+  "Comment attached to the review"
+  comment: String
+}
+
+"Input for mutation createReview"
+input CreateReviewInput {
+  review: ReviewInput
+}
+
+"Payload for createReview Mutation"
+type CreateReviewPayload {
+  clientMutationId: String
+
+  "The created review"
+  review: Review!
+}
+
+extend type Mutation {
+  "Create a new review for a product"
+  createReview(
+    "Mutation input"
+    input: CreateReviewInput!
+  ): CreateReviewPayload!
+}
+
+extend type Query {
+  "Query to get a user review for a product"
+  userReviewForProduct(
+    "Product ID"
+    productId: String!
+
+    "user ID"
+    accountId: String
+  ): Review
+}
