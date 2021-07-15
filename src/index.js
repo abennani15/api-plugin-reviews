@@ -1,8 +1,8 @@
 import pkg from "../package.json";
 // import i18n from "./i18n/index.js";
 import mutations from "./mutations/index.js";
-// import queries from "./queries/index.js";
-// import resolvers from "./resolvers/index.js";
+import queries from "./queries/index.js";
+import resolvers from "./resolvers/index.js";
 import schemas from "./schemas/index.js";
 // import { Review } from "./simpleSchemas.js";
 
@@ -25,11 +25,11 @@ export default async function register(app) {
       ]
     },
     graphQL: {
-      // resolvers,
+      resolvers,
       schemas
     },
     mutations,
-    // queries,
+    queries,
     simpleSchemas: {
       // Review
     }

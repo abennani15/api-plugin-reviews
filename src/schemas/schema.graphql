@@ -57,3 +57,14 @@ extend type Mutation {
     input: CreateReviewInput!
   ): CreateReviewPayload!
 }
+
+extend type Query {
+  "Query to get a user review for a product"
+  userReviewForProduct(
+    "Product ID"
+    productId: String!
+
+    "user ID"
+    accountId: String
+  ): Review
+}

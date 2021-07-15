@@ -27,21 +27,15 @@ export default async function createReview(context, input) {
   const { Catalog, Accounts } = collections;
   const { review: reviewInput } = input;
 
-  console.log("--- reviewInput ---");
-  console.log(reviewInput);
-
   if (accountId === null) {
     throw new ReactionError("invalid-param", "User has no account to create a review.");
   }
 
-  const decodeCatalogItemOpaqueId = decodeOpaqueIdForNamespace("reaction/catalogItem");
+  const decodeCatalogItemOpaqueId = decodeOpaqueIdForNamespace("reaction/catalogProduct");
   const catalogItemId = decodeCatalogItemOpaqueId(reviewInput.catalogItemId);
 
-  console.log("--- catalogItemId ---");
-  console.log(catalogItemId);
-
   const product = await Catalog.findOne({
-    "_id": catalogItemId,
+    "product._id": catalogItemId,
     "product.isVisible": true,
     "product.isDeleted": { $ne: true }
   });
@@ -53,7 +47,9 @@ export default async function createReview(context, input) {
   // AND : throw new ReactionError("invalid-param", "Only one review per user on a product is possible.");
 
   // get user name or email
-  const account = await Accounts.findOne({ accountId });
+  const account = await Accounts.findOne({
+    _id: accountId
+  });
   const name = account.name || account.emails[0].address;
 
   const createdAt = new Date();
@@ -75,14 +71,11 @@ export default async function createReview(context, input) {
   // TODO: Add simpleSchema for review and validate before insertion
   // Review.validate(review);
 
-  const productUpdateResult = await Catalog.updateOne({ _id: product._id }, {
+  await Catalog.updateOne({ _id: product._id }, {
     $push: {
-      reviews: review
+      "product.reviews": review
     }
   });
-
-  console.log("--- productUpdateResult ---");
-  console.log(productUpdateResult);
 
   return review;
 }
